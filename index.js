@@ -5,6 +5,8 @@ const fastify = require('fastify')({
   }
 })
 
+fastify.register(require('fastify-formbody'))
+
 const loginUrl = process.env.LOGIN_URL || 'https://login.salesforce.com'
 const clientId = process.env.CLIENT_ID
 const redirectUri = process.env.REDIRECT_URI || 'http://localhost:3000/callback' // FIXME: should automatically get server URL
@@ -124,7 +126,7 @@ fastify.post('/refresh', refreshOpts, async (request, reply) => {
 
   const params = new URLSearchParams()
   params.append('grant_type', 'refresh_token')
-  params.append('refresh_token', request.query.refresh_token)
+  params.append('refresh_token', request.body.refresh_token)
   params.append('client_id', clientId)
 
   const response = await fetch(`${authUrl}/services/oauth2/token`, {

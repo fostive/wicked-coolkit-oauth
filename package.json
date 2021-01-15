@@ -16,11 +16,11 @@
   "dependencies": {
     "fastify": "^3.9.2",
     "fastify-formbody": "^5.0.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "pino-pretty": "^4.3.0"
   },
   "devDependencies": {
     "eslint": "^7.17.0",
-    "pino-pretty": "^4.3.0",
     "standard": "^16.0.3"
   }
 }

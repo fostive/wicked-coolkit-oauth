@@ -13,7 +13,8 @@ const redirectUri = process.env.REDIRECT_URI || 'http://localhost:3000/callback'
 const scope = process.env.SCOPE || 'api refresh_token offline_access'
 
 /*
- * Start oauth process. 302 redirects user to Salesforce login.
+ * Start oauth process. 302 redirects user to Salesforce login
+ * with proper querystring params for oauth.
  *
  * Expected query string params:
  *  - redirect_uri

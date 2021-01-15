@@ -17,9 +17,22 @@ const scope = process.env.SCOPE || 'api refresh_token offline_access'
  *  - redirect_uri
  *  - login_url (optional)
  */
-fastify.get('/connect', async (request, reply) => {
-  // TODO: add request validation
-
+const connectOpts = {
+  schema: {
+    querystring: {
+      type: 'object',
+      required: ['redirect_uri'],
+      properties: {
+        redirect_uri: { type: 'string' },
+        login_url: {
+          type: 'string',
+          enum: ['https://login.salesforce.com', 'https://test.salesforce.com']
+        }
+      }
+    }
+  }
+}
+fastify.get('/connect', connectOpts, async (request, reply) => {
   const authUrl = request.query.login_url || loginUrl
 
   reply.redirect(302, `${authUrl}/services/oauth2/authorize` +
@@ -41,9 +54,19 @@ fastify.get('/connect', async (request, reply) => {
  *  - state - two values, pipe delimited. first is SF login URL. second is user app callback URL
  *      e.g. https://test.salesforce.com|https://usercoolkit.herokuapp.com
  */
-fastify.get('/callback', async (request, reply) => {
-  // TODO: add request validation
-
+const callbackOpts = {
+  schema: {
+    querystring: {
+      type: 'object',
+      required: ['code', 'state'],
+      properties: {
+        code: { type: 'string' },
+        state: { type: 'string' }
+      }
+    }
+  }
+}
+fastify.get('/callback', callbackOpts, async (request, reply) => {
   const state = request.query.state.split('|')
   const authUrl = state[0]
   const userUrl = state[1]
@@ -81,10 +104,23 @@ fastify.get('/callback', async (request, reply) => {
  *  - refresh_token
  *  - login_url (optional)
  */
-fastify.post('/refresh', async (request, reply) => {
-  // TODO: add request validation
-
-  const authUrl = request.query.login_url || loginUrl
+const refreshOpts = {
+  schema: {
+    body: {
+      type: 'object',
+      required: ['refresh_token'],
+      properties: {
+        refresh_token: { type: 'string' },
+        login_url: {
+          type: 'string',
+          enum: ['https://login.salesforce.com', 'https://test.salesforce.com']
+        }
+      }
+    }
+  }
+}
+fastify.post('/refresh', refreshOpts, async (request, reply) => {
+  const authUrl = request.body.login_url || loginUrl
 
   const params = new URLSearchParams()
   params.append('grant_type', 'refresh_token')

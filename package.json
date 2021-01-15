@@ -1,0 +1,25 @@
+{
+  "name": "wicked-coolkit-oauth",
+  "version": "1.0.0",
+  "description": "OAuth Proxy for Heroku Wicked Coolkit",
+  "engines": {
+    "node": "12.18.4",
+    "npm": "6.14.11"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "fastify": "^3.9.2",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.17.0",
+    "pino-pretty": "^4.3.0",
+    "standard": "^16.0.3"
+  }
+}

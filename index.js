@@ -92,7 +92,10 @@ fastify.get('/callback', callbackOpts, async (request, reply) => {
     fastify.log.error('Error getting access_token')
     const bodyText = await response.text()
     fastify.log.error('Error response body: bodyText')
-    throw new HTTPResponseError(bodyText)
+
+    reply.redirect(302, `${userUrl}` +
+      '?error=error getting access token' +
+      `&description=${bodyText}`)
   }
 
   reply.redirect(302, `${userUrl}` +

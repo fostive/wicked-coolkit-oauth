@@ -89,8 +89,9 @@ fastify.get('/callback', callbackOpts, async (request, reply) => {
     json = await response.json()
   } else {
     fastify.log.error('Error getting access_token')
-    fastify.log.error(`Error response body: ${await response.text()}`)
-    throw new HTTPResponseError(response)
+    const bodyText = await response.text()
+    fastify.log.error('Error response body: bodyText')
+    throw new HTTPResponseError(bodyText)
   }
 
   reply.redirect(302, `${userUrl}` +
@@ -139,8 +140,9 @@ fastify.post('/refresh', refreshOpts, async (request, reply) => {
     json = await response.json()
   } else {
     fastify.log.error('Error refreshing access_token')
-    fastify.log.error(`Error response body: ${await response.text()}`)
-    throw new HTTPResponseError(response)
+    const bodyText = await response.text()
+    fastify.log.error('Error response body: bodyText')
+    throw new HTTPResponseError(bodyText)
   }
 
   reply.send({
@@ -154,8 +156,8 @@ fastify.get('/', async (request, reply) => {
 })
 
 class HTTPResponseError extends Error {
-  constructor (response, ...args) {
-    super(`HTTP Error Response: ${response.status} ${response.statusText}`, ...args)
+  constructor (bodyText, ...args) {
+    super(`HTTP Error Response: ${bodyText}`, ...args)
   }
 }
 

@@ -104,6 +104,7 @@ fastify.get('/callback', callbackOpts, async (request, reply) => {
     `?access_token=${json.access_token}` +
     `&refresh_token=${json.refresh_token}` +
     `&instance_url=${json.instance_url}` +
+    `&redirect_uri=${userUrl}` +
     `&org_id=${orgId}` +
     `&user_id=${userId}`)
 })

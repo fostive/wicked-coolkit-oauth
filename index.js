@@ -98,10 +98,14 @@ fastify.get('/callback', callbackOpts, async (request, reply) => {
       `&description=${bodyText}`)
   }
 
+  const [_protocol, _blank, _domain, _id, orgId, userId] = json.id.split('/')
+
   reply.redirect(302, `${userUrl}` +
     `?access_token=${json.access_token}` +
     `&refresh_token=${json.refresh_token}` +
-    `&instance_url=${json.instance_url}`)
+    `&instance_url=${json.instance_url}` +
+    `&org_id=${orgId}` +
+    `&user_id=${userId}`)
 })
 
 /*
